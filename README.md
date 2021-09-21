@@ -116,13 +116,11 @@ _What you receive:_
     "user_id": 3,
     "user_name": "Dwight Schrute",
     "user_password": "$2a$08$/C4lRMgj5RlRwxlNqn8T0.l1LR3dsDSEPsVSFpUWV8Mry.HWbqZN.",
-    "user_role": 1,
+    "user_role": 2,
     "user_username": "dwightschrute"
   }
 ]
 ```
-
-# Nothing past this point works
 
 ### [DELETE] /api/users/:user_id
 
