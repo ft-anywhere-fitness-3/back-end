@@ -21,6 +21,13 @@ exports.up = async (knex) => {
     })
     .createTable("classes", (classes) => {
       classes.increments("class_id");
+      classes
+        .integer("instructor_id")
+        .unsigned()
+        .references("user_id")
+        .inTable("users")
+        .onDelete("RESTRICT")
+        .onUpdate("CASCADE");
       classes.string("class_name").notNullable();
       classes.string("class_type").notNullable();
       classes.string("class_start").notNullable();
@@ -28,7 +35,17 @@ exports.up = async (knex) => {
       classes.integer("class_level").notNullable();
       classes.string("class_location").notNullable();
       classes.integer("class_max_size").notNullable();
-      classes
+    })
+    .createTable("class_users", (attendee) => {
+      attendee.increments("att_id");
+      attendee
+        .integer("class_id")
+        .unsigned()
+        .references("class_id")
+        .inTable("classes")
+        .onUpdate("RESTRICT")
+        .onDelete("RESTRICT");
+      attendee
         .integer("user_id")
         .unsigned()
         .references("user_id")
@@ -40,6 +57,7 @@ exports.up = async (knex) => {
 
 exports.down = async (knex) => {
   await knex.schema
+    .dropTableIfExists("class_users")
     .dropTableIfExists("classes")
     .dropTableIfExists("users")
     .dropTableIfExists("roles");
