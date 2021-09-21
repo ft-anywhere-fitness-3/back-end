@@ -1,6 +1,6 @@
 # <p align="center">Backend Api</p>
 
-## <p align="center">api link here</p>
+## <p align="center">https://ft-anywhere-fitness-3.herokuapp.com</p>
 
 ## <p align="center">---------- REGISTER / LOGIN ----------</p>
 
