@@ -42,6 +42,7 @@ router.post("/login", (req, res, next) => {
               message: `Welcome back ${existingUser.user_username}`,
               token,
               user_role: role,
+              user_id: user.user_id,
             });
           })
           .catch(next);
