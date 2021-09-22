@@ -33,7 +33,6 @@ router.get("/", restricted, (req, res, next) => {
     .catch(next);
 });
 
-//update the class
 router.put(
   "/:class_id",
   restricted,
