@@ -3,7 +3,6 @@ const helmet = require("helmet");
 const cors = require("cors");
 const db = require("./data/db-config");
 
-const usersRouter = require("./users/users-router");
 const clientsRouter = require("./clients/clients-router");
 const classesRouter = require("./classes/classes-router");
 const authRouter = require("./auth/auth-router");
@@ -14,7 +13,6 @@ server.use(express.json());
 server.use(helmet());
 server.use(cors());
 
-server.use("/api/users", usersRouter);
 server.use("/api/clients", clientsRouter);
 server.use("/api/classes", classesRouter);
 server.use("/api/auth", authRouter);

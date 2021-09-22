@@ -1,13 +1,10 @@
-# <p align="center">Backend Api</p>
+# <p align="center">ft-anywhere-fitness-3 api</p>
 
 ## <p align="center">https://ft-anywhere-fitness-3.herokuapp.com</p>
 
-## <p align="center">---------- REGISTER / LOGIN ----------</p>
+## <p align="center">REGISTER / LOGIN</p>
 
-## Dummy Login Info
-
-<details>
-<summary>Usernames/Passwords</summary>
+### <p align="center">User examples:</p>
 
 ```json
 [
@@ -26,14 +23,11 @@
 ]
 ```
 
-</details>
-
 ### [POST] /api/auth/register
 
 - Register a new user
-  - _username required (must be between 3 and 30 characters)_
-  - _password required (must be between 6 and 30 characters)_
-  - _phone number required_
+  - _username required (must be a string | unique)_
+  - _password required (must be a string)_
 
 _What you send:_
 
@@ -43,7 +37,7 @@ _What you send:_
   "user_username": "jimhalpert",
   "user_email": "jim@something.com",
   "user_password": "randompassword",
-  "user_role": //if nothing provided, defaults to 2 (integer NOT string) | 1 = instructor, 2 = client
+  "user_role": "if nothing provided, defaults to 2 (integer NOT string) | 1 = instructor, 2 = client"
 }
 ```
 
@@ -58,8 +52,12 @@ _What you receive:_
 ### [POST] /api/auth/login
 
 - Login
-  - _username and password required_
-  - _provides a newly created token_
+  - _user_username and user_password required_
+  - _returns the following:_
+    - _message: { "Welcome back jimhalpert " }_
+    - _token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MzIzMzE4NzksImV4cCI6MTYzMjQxODI3OX0.Ajk-7XyY83eXwbo2mp5Q2_qEUdsfr1XnWy-wGtGX2XE"_
+    - _user_id: 1_
+    - _user_role: 2_
 
 _What you send:_
 
@@ -75,73 +73,13 @@ _What you receive:_
 ```json
 {
   "message": "Welcome back pambeesly",
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0Ijo1LCJ1c2VybmFtZSI6Ik5ld1VzZXIiLCJpYXQiOjE2MjcyNjY4MDYsImV4cCI6MTYyNzM1MzIwNn0.J1dFd3ghUPYVTodsaAU3Bg2RRcmYM_1oOe-96nvLLUg",
-  "role": 2 //or 1 if you click the 'I am an instructor' checkbox
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MzIzMzE4NzksImV4cCI6MTYzMjQxODI3OX0.Ajk-7XyY83eXwbo2mp5Q2_qEUdsfr1XnWy-wGtGX2XE",
+  "user_id": 1,
+  "user_role": 2
 }
 ```
 
-##
-
-## <p align="center">---------- USERS ----------</p>
-
-### [GET] /api/users/
-
-**_RESTRICTED ENDPOINT_**
-
-- Get an array of users
-  - _requires valid token in authorization header to access_
-
-_What you receive:_
-
-```json
-[
-  {
-    "user_email": "pam@something.com",
-    "user_id": 1,
-    "user_name": "Pam Beasley",
-    "user_password": "$2a$08$/C4lRMgj5RlRwxlNqn8T0.l1LR3dsDSEPsVSFpUWV8Mry.HWbqZN.",
-    "user_role": 2,
-    "user_username": "pambeasley"
-  },
-  {
-    "user_email": "jim@something.com",
-    "user_id": 2,
-    "user_name": "Jim Halpert",
-    "user_password": "$2a$08$/C4lRMgj5RlRwxlNqn8T0.l1LR3dsDSEPsVSFpUWV8Mry.HWbqZN.",
-    "user_role": 2,
-    "user_username": "jimhalpert"
-  },
-  {
-    "user_email": "dwight@something.com",
-    "user_id": 3,
-    "user_name": "Dwight Schrute",
-    "user_password": "$2a$08$/C4lRMgj5RlRwxlNqn8T0.l1LR3dsDSEPsVSFpUWV8Mry.HWbqZN.",
-    "user_role": 2,
-    "user_username": "dwightschrute"
-  }
-]
-```
-
-### [DELETE] /api/users/:user_id
-
-**_RESTRICTED ENDPOINT_**
-
-- Delete an existing user
-  - _requires valid token in authorization header to delete_
-  - _(example uses "6" for **:user_id** in URL)_
-
-_What you receive:_
-
-```json
-{
-  "user_id": 6,
-  "user_username": "DeletedUser"
-}
-```
-
-##
-
-## <p align="center">---------- CLASSES ----------</p>
+## <p align="center">CLASSES</p>
 
 ### [GET] /api/classes
 
@@ -149,7 +87,6 @@ _What you receive:_
 
 - Get an array of classes for authenticated user
   - _requires valid token in authorization header to access_
-  - _(example uses "1" for **:user_id** in URL)_
 
 _What you receive:_
 
@@ -188,7 +125,6 @@ _What you receive:_
 
 - Get information for a specific class
   - _requires valid token in authorization header to access_
-  - _(example uses "1" for **:user_id** and "1" for **:class_id** in URL)_
 
 _What you receive:_
 
@@ -213,7 +149,6 @@ _What you receive:_
 
 - Add a class (authenticated instructor)
   - _requires valid token in authorization header to send_
-  - _(example uses "1" for **:user_id** and "8" for **:class_id** in URL)_
   - _required information:_
     - _class_name (string)_
     - _class_type (string)_
@@ -222,7 +157,7 @@ _What you receive:_
     - _class_max_size (integer)_
     - _class_start (string)_
     - _class_duration (string)_
-    - _instructor_id (integer)_ // save the user_id and user_role in localStorage
+    - _instructor_id (integer)_
 
 _What you send:_
 
@@ -254,3 +189,88 @@ _What you receive:_
   "class_max_size": 25
 }
 ```
+
+### [POST] /api/classes/:class_id
+
+**_RESTRICTED ENDPOINT_**
+
+- Adding attendance to class (authenticated client)
+  - _requires valid token in authorization header to send_
+  - _required information:_
+    - _class_id (integer)_
+    - _user_id (integer, provided at login | **save to localStorage**)_
+
+_What you send:_
+
+```json
+{
+  "class_id": 1,
+  "user_id": 1
+}
+```
+
+_What you receive:_
+
+```json
+{
+  "class_id": 1,
+  "user_id": 1
+}
+```
+
+### [PUT] /api/classes/:class_id
+
+**_RESTRICTED ENDPOINT_**
+
+- Update an existing class (authenticated instructor)
+  - _requires valid token in authorization header to send_
+  - _required information:_
+    - _class_name (string)_
+    - _class_type (string)_
+    - _class_level (integer)_
+    - _class_location (string)_
+    - _class_max_size (integer)_
+    - _class_start (string)_
+    - _class_duration (string)_
+    - _instructor_id (integer)_
+
+_What you send:_
+
+```json
+{
+  "class_name": "A little change",
+  "class_type": "Running",
+  "class_start": "10:00AM",
+  "class_duration": "1 hour",
+  "class_level": 7,
+  "class_location": "Chicago, IL",
+  "class_max_size": 5,
+  "instructor_id": 2
+}
+```
+
+_What you receive:_
+
+```json
+{
+  "class_name": "A little change",
+  "class_type": "Running",
+  "class_start": "10:00AM",
+  "class_duration": "1 hour",
+  "class_level": 7,
+  "class_location": "Chicago, IL",
+  "class_max_size": 5,
+  "instructor_id": 2
+}
+```
+
+### [DELETE] /api/classes/:class_id
+
+**_RESTRICTED ENDPOINT_**
+
+- Delete an existing class (authenticated instructor)
+  - _requires valid token in authorization header to send_
+  - _required information:_
+    - _class_id (integer)_
+
+_Nothing gets returned on successful deletion_
