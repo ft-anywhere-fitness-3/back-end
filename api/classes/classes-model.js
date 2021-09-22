@@ -49,9 +49,20 @@ const getAll = async () => {
     .groupBy("classes.class_id");
 };
 
+const update = async (class_id, update) => {
+  db("classes").where({ class_id }).update(update);
+  return getById(class_id);
+};
+
+const remove = (class_id) => {
+  return db("classes").where({ class_id }).del();
+};
+
 module.exports = {
   insert,
   insertAttendance,
   getById,
   getAll,
+  update,
+  remove,
 };
