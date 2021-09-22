@@ -3,14 +3,12 @@ const Class = require("./classes-model");
 const { restricted, class_idVerification } = require("./classes-middleware");
 const db = require("../data/db-config");
 
-//create a class
 router.post("/", restricted, (req, res, next) => {
   Class.insert(req.body)
     .then((event) => res.json(event))
     .catch(next);
 });
 
-//adding attendance to the class
 router.post(
   "/:class_id",
   restricted,
@@ -23,21 +21,18 @@ router.post(
   }
 );
 
-//get the class
 router.get("/:class_id", restricted, class_idVerification, (req, res, next) => {
   Class.getById(req.params.class_id)
     .then((event) => res.json(event))
     .catch(next);
 });
 
-//get classes
 router.get("/", restricted, (req, res, next) => {
   Class.getAll()
     .then((classes) => res.json(classes))
     .catch(next);
 });
 
-//update the class
 router.put(
   "/:class_id",
   restricted,
