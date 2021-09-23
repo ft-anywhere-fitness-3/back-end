@@ -50,12 +50,27 @@ const getAll = async () => {
 };
 
 const update = async (class_id, update) => {
-  db("classes").where({ class_id }).update(update);
-  return getById(class_id);
+  const [updatedClass] = await db("classes")
+    .where({ class_id })
+    .update(update, [
+      "class_id",
+      "instructor_id",
+      "class_name",
+      "class_type",
+      "class_start",
+      "class_duration",
+      "class_level",
+      "class_location",
+      "class_max_size",
+    ]);
+  return getById(updatedClass.class_id);
 };
 
-const remove = (class_id) => {
-  return db("classes").where({ class_id }).del();
+const remove = async (class_id) => {
+  const removedClass = await db("classes")
+    .where({ class_id })
+    .del(["classes.*"]);
+  return removedClass;
 };
 
 module.exports = {
