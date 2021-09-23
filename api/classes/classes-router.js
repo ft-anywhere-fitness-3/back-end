@@ -1,7 +1,6 @@
 const router = require("express").Router();
 const Class = require("./classes-model");
 const { restricted, class_idVerification } = require("./classes-middleware");
-const db = require("../data/db-config");
 
 router.post("/", restricted, (req, res, next) => {
   Class.insert(req.body)
@@ -45,7 +44,11 @@ router.put(
       .then((changed) => {
         res.json(changed);
       })
-      .catch(next);
+      .catch(() =>
+        next({
+          message: "update endpoint does not work",
+        })
+      );
   }
 );
 
@@ -57,10 +60,14 @@ router.delete(
     const { class_id } = req.params;
 
     Class.remove(class_id)
-      .then(() => {
-        res.status(204).end();
+      .then((removedClass) => {
+        res.status(204).json(removedClass);
       })
-      .catch(next);
+      .catch(() => {
+        next({
+          message: "This is broken",
+        });
+      });
   }
 );
 

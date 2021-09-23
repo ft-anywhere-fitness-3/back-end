@@ -17,7 +17,7 @@ exports.up = async (knex) => {
         .inTable("roles")
         .defaultTo(2)
         .onUpdate("CASCADE")
-        .onDelete("RESTRICT");
+        .onDelete("CASCADE");
     })
     .createTable("classes", (classes) => {
       classes.increments("class_id");
@@ -26,7 +26,7 @@ exports.up = async (knex) => {
         .unsigned()
         .references("user_id")
         .inTable("users")
-        .onDelete("RESTRICT")
+        .onDelete("CASCADE")
         .onUpdate("CASCADE");
       classes.string("class_name").notNullable();
       classes.string("class_type").notNullable();
@@ -44,14 +44,14 @@ exports.up = async (knex) => {
         .references("class_id")
         .inTable("classes")
         .onUpdate("RESTRICT")
-        .onDelete("RESTRICT");
+        .onDelete("CASCADE");
       attendee
         .integer("user_id")
         .unsigned()
         .references("user_id")
         .inTable("users")
         .onUpdate("RESTRICT")
-        .onDelete("RESTRICT");
+        .onDelete("CASCADE");
     });
 };
 
