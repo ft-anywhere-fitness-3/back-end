@@ -9,7 +9,7 @@ router.post("/", restricted, (req, res, next) => {
 });
 
 router.post(
-  "/:class_id",
+  "/reservation/:class_id",
   restricted,
   class_idVerification,
   (req, res, next) => {
@@ -21,7 +21,7 @@ router.post(
 );
 
 router.delete(
-  "/:class_id",
+  "/reservation/:class_id",
   restricted,
   class_idVerification,
   (req, res, next) => {
