@@ -20,6 +20,22 @@ router.post(
   }
 );
 
+router.delete(
+  "/:class_id",
+  restricted,
+  class_idVerification,
+  (req, res, next) => {
+    const user = req.body;
+    const { user_id } = user;
+    const { class_id } = req.params;
+    Class.removeAttendance(user_id, class_id)
+      .then((attendance) => {
+        res.json(attendance);
+      })
+      .catch(next);
+  }
+);
+
 router.get("/:class_id", restricted, class_idVerification, (req, res, next) => {
   Class.getById(req.params.class_id)
     .then((event) => res.json(event))

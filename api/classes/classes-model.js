@@ -23,6 +23,10 @@ const insertAttendance = (class_id, user_id) => {
   ]);
 };
 
+const removeAttendance = (user_id, class_id) => {
+  return db("class_users").where({ class_id, user_id }).del();
+};
+
 const getById = async (class_id) => {
   /*
     SELECT 
@@ -76,6 +80,7 @@ const remove = async (class_id) => {
 module.exports = {
   insert,
   insertAttendance,
+  removeAttendance,
   getById,
   getAll,
   update,
